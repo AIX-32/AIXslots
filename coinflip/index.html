@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Coin Flip</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Coin Flip</h1>
+        <p>Bet on heads or tails and double your money!</p>
+    </div>
+    
+    <div class="balance-display">
+        <i class="fas fa-wallet"></i>
+        Balance: <span class="balance-amount" id="balance">1000</span> 
+    </div>
+    
+    <div class="game-container">
+        <div class="coin-container">
+            <div id="coin" class="coin">
+                <div class="gold">
+                    <img src="gold.png" alt="Gold">
+                </div>
+                <div class="blue">
+                    <img src="blue.png" alt="Blue">
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="control-group">
+                <div class="panel-title">
+                    <i class="fas fa-coins"></i> Bet Amount
+                </div>
+                <div class="input-group">
+                    <input type="number" id="betAmount" min="1" value="10" step="1">
+                </div>
+                <div class="bet-options">
+                    <div class="bet-option" data-multiplier="1">x1</div>
+                    <div class="bet-option" data-multiplier="2">x2</div>
+                    <div class="bet-option" data-multiplier="0.5">1/2</div>
+                    <div class="bet-option" data-multiplier="10">+10</div>
+                    <div class="bet-option" data-multiplier="100">+100</div>
+                    <div class="bet-option" data-multiplier="max">MAX</div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="panel-title">
+                    <i class="fas fa-check-circle"></i> Choose Side
+                </div>
+                <div class="side-buttons">
+                    <button class="side-option gold" data-side="gold">
+                        <img src="gold.png" alt="Gold"> GOLD
+                    </button>
+                    <button class="side-option blue" data-side="blue">
+                        <img src="blue.png" alt="Blue"> BLUE
+                    </button>
+                </div>
+                <div class="current-bet">
+                    <div>Current bet: <span id="currentBetAmount">0</span></div>
+                    <div>On: <span id="currentBetSide">-</span></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="panel-title">
+                    <i class="fas fa-info-circle"></i> Game Info
+                </div>
+                <div class="info-display">
+                    <div>Last Result: <strong id="lastResult">-</strong></div>
+                    <div>Payout: <strong id="payout">2x</strong></div>
+                    <div>Win Chance: <strong id="winChance">50%</strong></div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="flipBtn">
+                        <i class="fas fa-sync-alt"></i> FLIP
+                    </button>
+                    <button id="clearBets">
+                        <i class="fas fa-eraser"></i> CLEAR BETS
+                    </button>
+                </div>
+                
+                <div class="status-message" id="statusMessage"></div>
+            </div>
+            
+            <div class="control-group">
+                <div class="panel-title">
+                    <i class="fas fa-history"></i> History
+                </div>
+                <div class="history" id="history">
+                    <!-- History will be added by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>

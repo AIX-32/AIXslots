@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mini Roulette</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Mini Roulette</h1>
+        <p>Bet on a color and spin the wheel!</p>
+    </div>
+    
+        <div class="game-container">
+        <div class="roulette-wheel-container">
+            <div class="wheel-arrow"></div>
+            <div class="roulette-wheel" id="rouletteWheel">
+                <!-- Numbers will be added by JavaScript -->
+            </div>
+            <div class="wheel-center"></div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="control-group">
+                <div class="panel-title">
+                    <i class="fas fa-coins"></i> Bet Amount
+                </div>
+                <div class="input-group">
+                    <input type="number" id="betAmount" min="1" value="10" step="1">
+                </div>
+                <div class="bet-options">
+                    <div class="bet-option" data-multiplier="1">x1</div>
+                    <div class="bet-option" data-multiplier="2">x2</div>
+                    <div class="bet-option" data-multiplier="0.5">1/2</div>
+                    <div class="bet-option" data-multiplier="10">+10</div>
+                    <div class="bet-option" data-multiplier="100">+100</div>
+                    <div class="bet-option" data-multiplier="max">MAX</div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="panel-title">
+                    <i class="fas fa-palette"></i> Choose Color
+                </div>
+                <div class="color-buttons">
+                    <button class="color-option red" data-color="red">
+                        <i class="fas fa-circle"></i> RED (2x)
+                    </button>
+                    <button class="color-option green" data-color="green">
+                        <i class="fas fa-circle"></i> GREEN (14x)
+                    </button>
+                    <button class="color-option black" data-color="black">
+                        <i class="fas fa-circle"></i> BLACK (2x)
+                    </button>
+                </div>
+                <div class="current-bet">
+                    <div>Current bet: <span id="currentBetAmount">0</span></div>
+                    <div>On: <span id="currentBetColor">-</span></div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="panel-title">
+                    <i class="fas fa-info-circle"></i> Game Info
+                </div>
+                <div class="info-display">
+                    <div>Last Number: <strong id="lastNumber">-</strong></div>
+                    <div>Payout: <strong id="payout">0x</strong></div>
+                    <div>Win Chance: <strong id="winChance">0%</strong></div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="spinBtn">
+                        <i class="fas fa-sync-alt"></i> SPIN
+                    </button>
+                    <button id="clearBets">
+                        <i class="fas fa-eraser"></i> CLEAR BETS
+                    </button>
+                </div>
+                
+                <div class="status-message" id="statusMessage"></div>
+            </div>
+            
+            <div class="control-group">
+                <div class="panel-title">
+                    <i class="fas fa-history"></i> History
+                </div>
+                <div class="history" id="history">
+                    <!-- history will be added by js -->
+                </div>
+            </div>
+            <div class="balance-display">
+                <i class="fas fa-wallet"></i>
+                Balance: <span class="balance-amount" id="balance">1000</span> 
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <script src="game.js"></script>
+</body>
+</html>

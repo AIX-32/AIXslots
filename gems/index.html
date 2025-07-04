@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GemStakes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #1a2238, #12182e);
+    color: #e0e7ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 900px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    background: #00b8ff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .header p {
+    opacity: 0.7;
+    font-size: 1.1rem;
+  }
+  
+  .game-container {
+    display: flex;
+    gap: 30px;
+    max-width: 900px;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .balance-display {
+    background: rgba(30, 40, 70, 0.7);
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    font-size: 1.08rem;
+    color: #ffe066;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 224, 102, 0.2);
+  }
+  .balance-amount {
+    color: #fff;
+    font-weight: bold;
+    margin-left: 4px;
+    font-size: 1.08rem;
+  }
+  
+  .sidebar {
+    background: rgba(26, 34, 56, 0.7);
+    border-radius: 16px;
+    padding: 25px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(92, 107, 192, 0.2);
+  }
+  
+  .panel-title {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #7ed6ff;
+    font-weight: 600;
+  }
+  
+  .panel-title i {
+    font-size: 1.2rem;
+  }
+  
+  .control-group {
+    background: rgba(30, 40, 70, 0.5);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 6px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(10, 18, 40, 0.5);
+    color: white;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+  }
+  
+  .input-group input:focus {
+    outline: 1px solid #00b8ff;
+  }
+  
+  .info-display {
+    background: rgba(10, 18, 40, 0.5);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 8px;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+  }
+  
+  .info-display strong {
+    color: #00ff9d;
+    font-weight: 600;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  
+  button {
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  #playBtn {
+    background: #00b8ff;
+    color: #0a1220;
+  }
+  
+  #playBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 255, 157, 0.3);
+  }
+  
+  #cashout {
+    background: #ff9e44;
+    color: #0a1220;
+  }
+  
+  #cashout:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 158, 68, 0.3);
+  }
+  
+  .game-board {
+    background: rgba(26, 34, 56, 0.7);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(92, 107, 192, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .stat-box {
+    background: rgba(30, 40, 70, 0.5);
+    border-radius: 10px;
+    padding: 12px 20px;
+    text-align: center;
+    min-width: 120px;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+  }
+  
+  .stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 5px;
+    color: #7ed6ff;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 70px);
+    grid-template-rows: repeat(5, 70px);
+    gap: 8px;
+    user-select: none;
+  }
+  
+  .tile {
+    background: linear-gradient(145deg, #2c3348, #222940);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .tile:hover:not(.revealed):not(.mine) {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, #353d5a, #2a314f);
+  }
+  
+  .tile::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 184, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tile:hover::before {
+    opacity: 1;
+  }
+  
+  .tile.revealed {
+    background: linear-gradient(145deg, #0a8040, #076530);
+    cursor: default;
+    transform: scale(0.95);
+  }
+  
+  .tile.mine {
+    background: linear-gradient(145deg, #b03a3a, #8a2e2e);
+    cursor: default;
+    transform: scale(0.95);
+  }
+  
+  .tile i {
+    font-size: 1.8rem;
+  }
+  
+  .tile.revealed i {
+    color: #a8ffd0;
+  }
+  
+  .tile.mine i {
+    color: #ffc0c0;
+  }
+  
+  .status-bar {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border-radius: 30px;
+    background: rgba(30, 40, 70, 0.5);
+    font-weight: 600;
+    text-align: center;
+    min-width: 250px;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+  }
+  
+  .status-bar.game-active {
+    color: #7ed6ff;
+    border-color: rgba(126, 214, 255, 0.3);
+  }
+  
+  .status-bar.game-over {
+    color: #ff6b6b;
+    border-color: rgba(255, 107, 107, 0.3);
+  }
+  
+  .status-bar.game-won {
+    color: #00ff9d;
+    border-color: rgba(0, 255, 157, 0.3);
+  }
+  
+  .multiplier-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .multiplier-value {
+    font-weight: 700;
+    color: #00ff9d;
+    background: rgba(0, 255, 157, 0.1);
+    padding: 5px 15px;
+    border-radius: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .game-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .sidebar {
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .grid {
+      grid-template-columns: repeat(5, 60px);
+      grid-template-rows: repeat(5, 60px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .grid {
+      grid-template-columns: repeat(5, 50px);
+      grid-template-rows: repeat(5, 50px);
+      gap: 5px;
+    }
+    
+    .stat-box {
+      padding: 8px 12px;
+      min-width: 100px;
+    }
+    
+    .stat-value {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>GemStakes</h1>
+    <p>Find gems and avoid mines to multiply your winnings!</p>
+  </div>
+  
+  <div class="game-container">
+    <div class="sidebar">
+      <div class="balance-display">
+        <i class="fas fa-wallet"></i> Balance:
+        <span class="balance-amount" id="balanceAmount">$0.00000000</span>
+      </div>
+      <div class="control-group">
+        <h2 class="panel-title"><i class="fas fa-sliders-h"></i> Game Settings</h2>
+        
+        <div class="input-group">
+          <label for="betAmount"><i class="fas fa-coins"></i> Bet Amount ($)</label>
+          <input id="betAmount" type="number" min="0" step="1" value="10" />
+        </div>
+        
+        <div class="input-group">
+          <label for="minesCount"><i class="fas fa-bomb"></i> Mines</label>
+          <input id="minesCount" type="number" min="1" max="24" value="3" />
+        </div>
+        
+        <div class="input-group">
+          <label for="gemsCount"><i class="fas fa-gem"></i> Gems (tiles to find)</label>
+          <input id="gemsCount" type="number" min="1" max="25" value="5" />
+        </div>
+        
+        <div class="info-display">
+          <div class="multiplier-display" style="margin-top: 5px;">  
+            <span>Current Multiplier:</span>
+            <span class="multiplier-value">1.00x</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button id="playBtn">
+          <i class="fas fa-play"></i> Start Game
+        </button>
+        <button id="cashout" disabled>
+          <i class="fas fa-hand-holding-usd"></i> Cashout
+        </button>
+      </div>
+    </div>
+    
+    <div class="game-board">
+      <div class="stats">
+        <div class="stat-box">
+          <div>Gems:</div>
+          <div class="stat-value" id="gemsFound">0/5</div>
+        </div>
+        <div class="stat-box">
+          <div>Mines:</div>
+          <div class="stat-value" id="minesLeft">3</div>
+        </div>
+      </div>
+      
+      <div class="grid" id="grid"></div>
+      
+      <div class="status-bar game-active" id="statusBar">
+        Ready to play
+      </div>
+    </div>
+  </div>
+
+<script>
+  const gridSize = 5;
+  const totalTiles = gridSize * gridSize;
+  let mines = [];
+  let gems = [];
+  let revealedGems = 0;
+  let bet = 0;
+  let isGameActive = false;
+  let totalProfit = 0;
+  let gemMultiplier = 1.5;
+  
+  // Sound system
+  const soundSettings = {
+    click: { src: 'click.wav', volume: 0.5 },
+    gem: { src: 'gem.wav', volume: 0.5 },
+    mine: { src: 'boom.wav', volume: 0.7 },
+    cashout: { src: 'win.wav', volume: 0.5 },
+    win: { src: 'win.wav', volume: 0.5 }
+  };
+  
+  // Function to play sounds with new instances for each play
+  function playSound(soundName) {
+    try {
+      const sound = soundSettings[soundName];
+      if (!sound) return;
+      
+      const audio = new Audio(sound.src);
+      audio.volume = sound.volume;
+      audio.play().catch(e => console.log(`Audio play failed for ${soundName}:`, e));
+    } catch (e) {
+      console.log(`Error playing sound ${soundName}:`, e);
+    }
+  }
+  
+  // Base multiplier progression table (higher base values)
+  const multiplierTable = {
+    1: 2.50,    // Increased from 1.50
+    2: 4.00,    // Increased from 2.25
+    3: 6.00,    // Increased from 3.38
+    4: 9.00,    // Increased from 5.06
+    5: 13.50,   // Increased from 7.59
+    6: 20.25,   // Increased from 11.39
+    7: 30.38,   // Increased from 17.09
+    8: 45.56,   // Increased from 25.63
+    9: 68.34,   // Increased from 38.44
+    10: 102.50  // Increased from 57.67
+  };
+  
+  // Calculate mine bonus multiplier (only applies for 2+ mines)
+  function calculateMineBonus(mineCount) {
+    // No bonus for 1 mine
+    if (mineCount <= 1) return 1.0;
+    // Small bonus starting from 2 mines (0.1 per mine after the first)
+    return 1.0 + ((mineCount - 1) * 0.1);
+  }
+
+  const gridEl = document.getElementById("grid");
+  const betInput = document.getElementById("betAmount");
+  const minesInput = document.getElementById("minesCount");
+  const gemsInput = document.getElementById("gemsCount");
+  const playBtn = document.getElementById("playBtn");
+  const cashoutBtn = document.getElementById("cashout");
+  const gemsFoundEl = document.getElementById("gemsFound");
+  const minesLeftEl = document.getElementById("minesLeft");
+  const statusBar = document.getElementById("statusBar");
+  const multiplierValue = document.querySelector(".multiplier-value");
+  const balanceAmountEl = document.getElementById("balanceAmount");
+
+  // --- Balance System ---
+  let balance = 0;
+  const BALANCE_KEY = "gemstoneMines_balance";
+
+  function loadBalance() {
+    const stored = localStorage.getItem(BALANCE_KEY);
+    if (stored !== null && !isNaN(parseFloat(stored))) {
+      balance = parseFloat(stored);
+    } else {
+      balance = 1000; // Default starting balance
+      saveBalance();
+    }
+  }
+  function saveBalance() {
+    localStorage.setItem(BALANCE_KEY, balance.toFixed(2));
+  }
+  function updateBalanceDisplay() {                                               
+    balanceAmountEl.textContent = `$${balance.toFixed(2)}`;
+  }
+
+  // Initialize the game board with tiles
+  function initGrid() {
+    gridEl.innerHTML = "";
+    for (let i = 0; i < totalTiles; i++) {
+      const tile = document.createElement("div");
+      tile.classList.add("tile");
+      tile.dataset.index = i;
+      tile.innerHTML = '<i class="fas fa-question"></i>';
+      tile.addEventListener("click", () => {
+        playSound('click');
+        revealTile(i);
+      });
+      gridEl.appendChild(tile);
+    }
+  }
+  
+  // Start a new game
+  function startGame() {
+    const betValue = parseFloat(betInput.value);
+    const mineCount = parseInt(minesInput.value);
+    const gemCount = parseInt(gemsInput.value);
+
+    // Validate input
+    if (
+      isNaN(betValue) || betValue <= 0 ||
+      isNaN(mineCount) || mineCount < 1 || mineCount >= totalTiles ||
+      isNaN(gemCount) || gemCount < 1 || gemCount > totalTiles ||
+      mineCount + gemCount > totalTiles
+    ) {
+      showStatus("Invalid input values!", "game-over");
+      return;
+    }
+    if (betValue > balance) {
+      showStatus("Insufficient balance!", "game-over");
+      return;
+    }
+
+    bet = betValue;
+    revealedGems = 0;
+    totalProfit = 0;
+    isGameActive = true;
+
+    // Deduct bet from balance
+    balance -= bet;
+    saveBalance();
+    updateBalanceDisplay();
+
+    // Assign mines and gems randomly
+    const positions = [...Array(totalTiles).keys()];
+    shuffleArray(positions);
+    mines = positions.slice(0, mineCount);
+    gems = positions.slice(mineCount, mineCount + gemCount);
+
+    // Update UI
+    initGrid();
+    updateStats();
+    updateProfit();
+    cashoutBtn.disabled = true; // Only enable after first gem found
+    playBtn.innerHTML = '<i class="fas fa-redo"></i> Restart Game';
+    showStatus("Game in progress - Find the gems!", "game-active");
+  }
+  
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  
+  function revealTile(index) {
+    if (!isGameActive) return;
+
+    const tile = gridEl.children[index];
+    if (tile.classList.contains("revealed") || tile.classList.contains("mine")) return;
+
+    if (mines.includes(index)) {
+      // Hit a mine
+      tile.classList.add("mine");
+      tile.innerHTML = '<i class="fas fa-bomb"></i>';
+      playSound('mine');
+      isGameActive = false;
+      cashoutBtn.disabled = true;
+      revealAllMines();
+      showStatus("BOOM! Mine hit. Game over.", "game-over");
+      // No profit, bet is lost, nothing to add to balance
+    } else if (gems.includes(index)) {
+      // Found a gem
+      tile.classList.add("revealed");
+      tile.innerHTML = '<i class="fas fa-gem"></i>';
+      playSound('gem');
+      revealedGems++;
+      updateStats();
+      updateProfit();
+      if (revealedGems === 1) {
+        cashoutBtn.disabled = false;
+      }
+      if (revealedGems === gems.length) {
+        // Found all gems, auto cashout
+        isGameActive = false;
+        cashoutBtn.disabled = true;
+        playSound('win');
+        // Add profit to balance
+        balance += totalProfit;
+        saveBalance();
+        updateBalanceDisplay();
+        showStatus(`Congratulations! You found all gems! You won $${totalProfit.toFixed(2)}`, "game-won");
+        revealAllMines();
+      }
+    } else {  
+      // Empty tile
+      tile.classList.add("revealed");
+      tile.innerHTML = '<i class="fas fa-circle"></i>';
+    }
+  }
+  
+  function revealAllMines() {
+    mines.forEach(idx => {
+      const tile = gridEl.children[idx];
+      if (!tile.classList.contains("mine")) {
+        tile.classList.add("mine");
+        tile.innerHTML = '<i class="fas fa-bomb"></i>';
+      }
+    });
+  }
+  
+  function updateStats() {
+    gemsFoundEl.textContent = `${revealedGems}/${gems.length}`;
+    minesLeftEl.textContent = mines.length.toString();
+  }
+  
+  function updateProfit() {
+    // Calculate base multiplier based on gems found
+    const baseMultiplier = multiplierTable[revealedGems] || 
+                         (multiplierTable[Object.keys(multiplierTable).pop()] * 
+                          Math.pow(1.5, revealedGems - Object.keys(multiplierTable).length));
+    
+    // Calculate mine bonus based on number of mines
+    const mineCount = mines.length;
+    const mineBonus = calculateMineBonus(mineCount);
+    
+    // Apply both multipliers
+    const totalMultiplier = baseMultiplier * mineBonus;
+    
+    // Update display (show bonus only if applicable)
+    if (mineCount > 1) {
+      multiplierValue.textContent = `${baseMultiplier.toFixed(2)}x (${mineCount} mines: +${((mineBonus-1)*100).toFixed(0)}%)`;
+    } else {
+      multiplierValue.textContent = `${baseMultiplier.toFixed(2)}x`;
+    }
+    
+    // Calculate total profit
+    totalProfit = Math.floor(bet * totalMultiplier);
+  }
+  
+  function cashout() {
+    if (!isGameActive || revealedGems === 0) return;
+    playSound('cashout');
+
+    isGameActive = false;
+    cashoutBtn.disabled = true;
+    // Add profit to balance
+    balance += totalProfit;
+    saveBalance();
+    updateBalanceDisplay();
+    showStatus(`Cashed out! You won $${totalProfit.toFixed(2)}`, "game-won");
+    revealAllMines();
+  }
+  
+  function showStatus(message, statusClass) {
+    statusBar.textContent = message;
+    statusBar.className = "status-bar " + statusClass;
+  }
+
+  // --- Initialize balance and game ---
+  loadBalance();
+  updateBalanceDisplay();
+
+  // Initialize game board
+  initGrid();
+  
+  // Event listeners
+  playBtn.addEventListener("click", () => {
+    playSound('click');
+    startGame();
+  });
+  cashoutBtn.addEventListener("click", () => {
+    playSound('click');
+    cashout();
+  });
+  
+  // Reset game when changing settings
+  betInput.addEventListener("change", () => {
+    if (isGameActive) startGame();
+  });
+  minesInput.addEventListener("change", () => {
+    if (isGameActive) startGame();
+  });
+  gemsInput.addEventListener("change", () => {
+    if (isGameActive) startGame();
+  });
+</script>
+</body>
+</html>

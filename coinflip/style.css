@@ -1,0 +1,428 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(135deg, #1a2238, #12182e);
+    color: #e0e7ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    background: #ffd04d;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.header p {
+    opacity: 0.7;
+    font-size: 1.1rem;
+}
+
+.game-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.balance-display {
+    background: rgba(30, 40, 70, 0.7);
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    font-size: 1.08rem;
+    color: #ffe066;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 224, 102, 0.2);
+}
+
+.balance-amount {
+    color: #fff;
+    font-weight: bold;
+    margin-left: 4px;
+    font-size: 1.08rem;
+}
+
+.sidebar {
+    background: rgba(26, 34, 56, 0.7);
+    border-radius: 16px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(92, 107, 192, 0.2);
+}
+
+.panel-title {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ff7e7e;
+    font-weight: 600;
+    justify-content: center;
+    text-align: center;
+}
+
+.panel-title i {
+    font-size: 1.2rem;
+}
+
+.control-group {
+    background: rgba(30, 40, 70, 0.5);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+    margin-bottom: 15px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(10, 18, 40, 0.5);
+    color: white;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+}
+
+.input-group input:focus {
+    outline: 1px solid #ff4d4d;
+}
+
+.info-display {
+    background: rgba(10, 18, 40, 0.5);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 8px;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+}
+
+.info-display strong {
+    color: #ff7e7e;
+    font-weight: 600;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#flipBtn {
+    background: #ff4d4d;
+    color: #0a1220;
+}
+
+#flipBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+}
+
+#clearBets {
+    background: #ff9e44;
+    color: #0a1220;
+}
+
+#clearBets:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 158, 68, 0.3);
+}
+
+.side-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.side-option {
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: white;
+}
+
+.side-option img {
+    width: 24px;
+    height: 24px;
+}
+
+.side-option.gold {
+    background: rgba(255, 208, 77, 0.8);
+    border: 2px solid #ffd04d;
+}
+
+.side-option.gold:hover, .side-option.gold.active {
+    background: #ffd04d;
+    color: #1a2238;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 208, 77, 0.3);
+}
+
+.side-option.blue {
+    background: rgba(150, 160, 180, 0.8);
+    border: 2px solid #96a0b4;
+}
+
+.side-option.blue:hover, .side-option.blue.active {
+    background: #96a0b4;
+    color: #1a2238;
+    box-shadow: 0 4px 15px rgba(150, 160, 180, 0.3);
+}
+
+.current-bet {
+    background: rgba(10, 18, 40, 0.5);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 10px;
+    border: 1px solid rgba(92, 107, 192, 0.2);
+}
+
+.current-bet div {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+.current-bet span {
+    font-weight: bold;
+    color: #ffe066;
+}
+
+.bet-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.bet-option {
+    padding: 8px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(30, 40, 70, 0.5);
+    border: 1px solid rgba(92, 107, 192, 0.2);
+}
+
+.bet-option:hover {
+    background: rgba(255, 77, 77, 0.2);
+    transform: translateY(-2px);
+}
+
+.history {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.history-item {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #1a2238;
+}
+
+.history-item img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.history-item.gold {
+    background: #ffd04d;
+}
+
+.history-item.blue {
+    background: #96a0b4;
+}
+
+.status-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 500;
+    display: none;
+}
+
+.status-message.success {
+    background: rgba(0, 204, 102, 0.2);
+    color: #00cc66;
+    border: 1px solid rgba(0, 204, 102, 0.3);
+}
+
+.status-message.error {
+    background: rgba(255, 77, 77, 0.2);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.3);
+}
+
+.status-message.info {
+    background: rgba(77, 136, 255, 0.2);
+    color: #4d88ff;
+    border: 1px solid rgba(77, 136, 255, 0.3);
+}
+
+.coin-container {
+    width: 300px;
+    height: 300px;
+    perspective: 1000px;
+    margin: 40px auto;
+}
+
+.coin {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+.coin.flipping {
+    transform: rotateY(1800deg);
+}
+
+.coin div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.coin .gold {
+    transform: translateZ(2px);
+}
+
+.coin div img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.coin .blue {
+    color: #3e4554;
+    transform: rotateY(180deg) translateZ(2px);
+}
+
+.coin.show-blue {
+    transform: rotateY(180deg);
+}
+
+@media (max-width: 1100px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .sidebar {
+        width: 100%;
+        max-width: 650px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sidebar {
+        padding: 15px;
+    }
+    .bet-options {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: rgba(18, 24, 46, 0.5); /* Matches your background nicely */
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #ffd04d, #ff4d4d);
+    border-radius: 10px;
+    border: 2px solid #12182e; /* Outer border to blend in with your background */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ff4d4d, #ffd04d);
+  }
+  
+  /* Firefox scrollbar (limited support) */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #ff4d4d rgba(18, 24, 46, 0.5);
+  }
+  
